@@ -169,7 +169,8 @@ namespace PowerStowToExcelConverter
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        System.Diagnostics.Process.Start(@"excel.exe", TextBoxSaveAs.Text);
+                        // Append "path" in case the path has a space in it.
+                        System.Diagnostics.Process.Start(@"excel.exe",  "\"" + TextBoxSaveAs.Text + "\"");
                     break;
                 }
             }
