@@ -12,6 +12,7 @@ namespace PowerStowToExcelConverter.Core
         private Terminal terminal;
         private ShipmentCompany[] companies;
         private Controller() { }
+        private Translator translator;
 
         public static Controller Instance
         {
@@ -23,6 +24,27 @@ namespace PowerStowToExcelConverter.Core
                     instance = new Controller();
                 }
                 return instance;
+            }
+        }
+
+        public Translator Translator
+        {
+            get
+            {
+                return translator;
+            }
+        }
+        public void loadTranslator()
+        {
+            // Create a translator object. In-case if there is any problem then set the object to null
+            try
+            {
+                translator = new Translator(@"Translation.xml");
+            }
+            catch (Exception ex)
+            {
+                translator = null;
+                throw ex;
             }
         }
 

@@ -2,17 +2,11 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
-using OfficeOpenXml;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Vml;
-using OfficeOpenXml.Style;
-
+using System.Xml;
 namespace PowerStowToExcelConverter.Core
 {
     class Translator
     {
-        private ExcelPackage ep;
-        private ExcelWorksheet ws;
         private Dictionary<string, string> dictionary;
 
         public Translator(string path)
@@ -24,30 +18,32 @@ namespace PowerStowToExcelConverter.Core
             {
                 try
                 {
-                    // Load the file
-                    ep = new ExcelPackage(fileInfo);
-                    ws = ep.Workbook.Worksheets["Content"];
                     dictionary = new Dictionary<string, string>();
-                    generateDictionary();
+                    generateDictionary(path);
                 }
                 catch (Exception ex)
                 {
                     throw ex;
                 }
             }
+            else
+                throw new Exception("Warning! Could not open Translator.xml in the program directory. The port names will not be translated to their symbol representation");
         }
-
-        // Reads the excel file and generates appropriate dictionary
-        private void generateDictionary()
+    
+        private void generateDictionary(string path)
         {
-            string portName;
-            string portInitials;
-            for (int rowNum = 1; rowNum <= ws.Dimension.End.Row; rowNum++)
-            {
-                portName = ws.Cells[rowNum, 1].Text;
-                portInitials = ws.Cells[rowNum, 2].Text;
-                dictionary.Add(portName, portInitials);
-            }
+
+            XmlDocument xmlDoc= new XmlDocument(); // Create an XML document object
+            xmlDoc.Load(path); // Load the XML document from the specified file
+
+            XmlNodeList port = xmlDoc.GetElementsByTagName(@"port");
+            XmlNodeList symbol = xmlDoc.GetElementsByTagName(@"symbol");
+
+            if (port.Count != symbol.Count)
+                throw new Exception("Error parsing XML file. Port and symbol size miss match");
+
+            for (int i = 0; i < port.Count; i++)
+                dictionary.Add(port[i].InnerText, symbol[i].InnerText);
         }
 
         public string translate(string name)

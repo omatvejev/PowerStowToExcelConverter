@@ -32,6 +32,16 @@ namespace PowerStowToExcelConverter
                 MessageBox.Show(ex.Message.ToString());
                 MessageBox.Show(ex.StackTrace.ToString());
             }
+
+            // Loading the Translation.
+            try
+            {
+                Controller.Instance.loadTranslator();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
         }
 
         private void btn_close(object sender, RoutedEventArgs e)
@@ -140,11 +150,28 @@ namespace PowerStowToExcelConverter
             TextBoxSaveAs.IsEnabled = false;
             ButtonConvert.IsEnabled = false;
             TextBoxAdditionalOptions.IsEnabled = false;
+
+            // Make sure that the input path has the correct file format. If not correct it
+            if (!TextBoxBrowse.Text.Contains(@".txt"))
+                TextBoxBrowse.Text = TextBoxBrowse.Text + ".txt";
+
+            if (!TextBoxSaveAs.Text.Contains(@".xlsx"))
+                TextBoxSaveAs.Text = TextBoxSaveAs.Text + ".xlsx";
+
             try
             {
                 Controller.Instance.readFile(TextBoxBrowse.Text, TextBoxAdditionalOptions.Text);
                 Controller.Instance.writeFile(TextBoxSaveAs.Text);
-                MessageBox.Show("Converted Successfully!");
+
+                // Converted successfully
+                MessageBoxResult result = MessageBox.Show("Warning! Reefer containers are combined with the dry containers due to the limitations of the input file. Make sure to correct the output accordingly.\n\n" +
+                                                          "Would you like to view the converted file?", "Converted Successfully!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        System.Diagnostics.Process.Start(@"excel.exe", TextBoxSaveAs.Text);
+                    break;
+                }
             }
             catch (IOException ex)
             {

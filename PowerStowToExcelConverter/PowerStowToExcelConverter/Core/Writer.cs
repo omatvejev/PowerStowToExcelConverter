@@ -14,7 +14,6 @@ namespace PowerStowToExcelConverter.Core
     {
         private ExcelPackage ep;
         private ExcelWorksheet ws;
-        private Translator translator;
 
         // Modify in the future to tell the user that the file is in use somewhere outside of the constructor
         public Writer(string path, bool delete)
@@ -48,17 +47,6 @@ namespace PowerStowToExcelConverter.Core
             }
             catch (Exception ex)
             {
-                throw ex;
-            }
-
-            // Create a translator object. In-case if there is any problem then set the object to null
-            try
-            {
-                translator = new Translator(@"Translation.xlsx");
-            }
-            catch (Exception ex)
-            {
-                translator = null;
                 throw ex;
             }
         }
@@ -584,8 +572,8 @@ namespace PowerStowToExcelConverter.Core
             portName = portName.TrimEnd(' ');
 
             // Try to translate the appropriate 
-            if (translator != null)
-                return translator.translate(portName);
+            if (Controller.Instance.Translator != null)
+                return Controller.Instance.Translator.translate(portName);
             else
                 return portName;
         }

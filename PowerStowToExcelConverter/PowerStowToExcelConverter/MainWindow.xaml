@@ -9,7 +9,7 @@
         <TextBox x:Name="TextBoxSaveAs" HorizontalAlignment="Left" Height="23" Margin="20,106,0,0" VerticalAlignment="Top" Width="361" TextChanged="TextBoxSaveTo_TextChanged"/>
         <Button x:Name="ButtonConvert" Content="Convert" HorizontalAlignment="Left" Margin="405,156,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="ButtonConvert_Click"/>
         <TextBox x:Name="TextBoxBrowse" HorizontalAlignment="Left" Height="23" Margin="20,56,0,0" VerticalAlignment="Top" Width="361" TextChanged="TextBoxBrowse_TextChanged"/>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Version 1.1" VerticalAlignment="Top" Margin="10,285,0,0" FontSize="8" Width="68"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Version 1.2" VerticalAlignment="Top" Margin="10,285,0,0" FontSize="8" Width="68"/>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Created By: Oleg Matvejev" VerticalAlignment="Top" Margin="10,296,0,0" FontSize="8" Width="94"/>
         <TextBlock HorizontalAlignment="Left" Margin="20,23,0,0" Text="Power Stow to Excel Converter" VerticalAlignment="Top" FontSize="14" TextDecorations="{x:Null}"/>
         <TextBox x:Name="TextBoxAdditionalOptions" HorizontalAlignment="Left" Height="23" Margin="20,155,0,0" VerticalAlignment="Top" Width="361" TextChanged="TextBoxAdditionalOptions_TextChanged" KeyDown="TextBoxAdditionalOptions_KeyDown" ToolTip=""/>
